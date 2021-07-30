@@ -1,0 +1,20 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/dev/auth-dpl.yaml
+      - ./infra/k8s/dev/auth-mongo-dpl.yaml
+      - ./infra/k8s/dev/ingress.yaml
+build:
+  local:
+    push: false
+  artifacts:
+    - image: sonnemon/api-auth
+      context: auth
+      docker:
+        dockerfile: docker/dev.dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .      

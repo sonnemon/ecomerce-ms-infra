@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ecomerce-igrs
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: ecomerce.dev
+      http:
+        paths:
+          - backend:
+              serviceName: api-auth-srv
+              servicePort: 3000
+            path: /auth
