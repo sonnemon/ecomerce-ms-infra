@@ -13,3 +13,7 @@ spec:
               serviceName: api-auth-srv
               servicePort: 3000
             path: /auth
+          - backend:
+              serviceName: api-category-srv
+              servicePort: 3000
+            path: /category

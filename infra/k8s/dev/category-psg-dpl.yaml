@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: category-psg-dpl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: category-psg-dpl
+  template:
+    metadata:
+      labels:
+        app: category-psg-dpl
+    spec:
+      containers:
+        - name: category-psg-dpl
+          image: postgres:10.4
+          env:
+            - name: POSTGRES_DB
+              value: 'postgresdb'
+            - name: POSTGRES_USER
+              value: 'postgresadmin'
+            - name: POSTGRES_PASSWORD
+              value: 'admin123'
+          # envFrom:
+          #   - configMapRef:
+          #       name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: psg-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: category-psg-srv
+spec:
+  type: NodePort
+  selector:
+    app: category-psg-dpl
+  ports:
+   - port: 5432

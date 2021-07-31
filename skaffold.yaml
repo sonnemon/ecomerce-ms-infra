@@ -5,6 +5,7 @@ deploy:
     manifests:
       - ./infra/k8s/dev/auth-dpl.yaml
       - ./infra/k8s/dev/auth-mongo-dpl.yaml
+      - ./infra/k8s/dev/category-dpl.yaml
       - ./infra/k8s/dev/ingress.yaml
 build:
   local:
@@ -17,4 +18,12 @@ build:
       sync:
         manual:
           - src: "src/**/*.ts"
-            dest: .      
+            dest: .
+    - image: sonnemon/api-category
+      context: category
+      docker:
+        dockerfile: docker/dev.dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.py"
+            dest: .
